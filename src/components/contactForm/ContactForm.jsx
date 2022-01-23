@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './ContactForm.scss';
-// import shortid from 'shortid';
 import PropTypes from 'prop-types';
 
 export default function ContactForm({ onSubmit }) {
