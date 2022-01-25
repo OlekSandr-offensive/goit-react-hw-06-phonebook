@@ -1,17 +1,21 @@
 import { combineReducers } from 'redux';
+import types from './contacts-types';
+import initialContacts from '../contacts.json';
 
-// {
-//   contacts: {
-//     items: [],
-//     filter: ''
-//   }
-// }
+const items = (state = initialContacts, { type, payload }) => {
+  switch (type) {
+    case types.ADD:
+      return {
+        ...state,
+        contacts: [payload, ...state.contacts],
+      };
 
-const items = (state = [], action) => {
-  return state;
+    default:
+      return state;
+  }
 };
 
-const filter = (state = [], action) => {
+const filter = (state = '', action) => {
   return state;
 };
 
