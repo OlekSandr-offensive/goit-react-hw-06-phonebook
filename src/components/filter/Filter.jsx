@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './Filter.scss';
 
 const Filter = ({ value, onChange }) => {
@@ -10,9 +11,13 @@ const Filter = ({ value, onChange }) => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  // value: () => dispatch(filterAction(event.currentTarget.value))
+});
+
 Filter.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default Filter;
+export default connect(null, mapDispatchToProps)(Filter);
