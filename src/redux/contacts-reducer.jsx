@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
 import types from './contacts-types';
 // import initialContacts from '../contacts.json';
 const initialContacts = {
