@@ -1,10 +1,16 @@
 import './ContactList.scss';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { deleteContacts } from '../../redux/contacts-actions';
+import { getVisibleContacts } from '../../redux/contacts-selectors';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts, onDeleteContacts }) => (
-  <>
+const ContactList = () => {
+  const contacts = useSelector(getVisibleContacts);
+  const dispatch = useDispatch();
+
+  const onDeleteContacts = id => dispatch(deleteContacts(id));
+
+  return (
     <ul className="ContactList">
       {contacts.map(({ id, name, number }) => (
         <li key={id}>
@@ -17,24 +23,8 @@ const ContactList = ({ contacts, onDeleteContacts }) => (
         </li>
       ))}
     </ul>
-  </>
-);
-
-const getVisibleContacts = (allContacts, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-
-  return allContacts.contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter),
   );
 };
-
-const mapStateToProps = ({ contacts: { items, filter } }) => ({
-  contacts: getVisibleContacts(items, filter),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onDeleteContacts: id => dispatch(deleteContacts(id)),
-});
 
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
@@ -46,4 +36,4 @@ ContactList.propTypes = {
   ),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default ContactList;
