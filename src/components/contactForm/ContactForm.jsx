@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddContact } from '../../redux/contacts-actions';
+import { getVisibleContacts } from '../../redux/contacts-selectors';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './ContactForm.scss';
 
 export default function ContactForm() {
+  const contacts = useSelector(getVisibleContacts);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
@@ -25,8 +29,17 @@ export default function ContactForm() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    dispatch(AddContact({ name, number }));
-    reset();
+    const findContact = contacts.find(
+      contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase(),
+    );
+
+    if (findContact) {
+      toast.error(`${name} is already in contacts.`);
+      reset();
+    } else {
+      dispatch(AddContact({ name, number }));
+      reset();
+    }
   };
 
   const reset = () => {
